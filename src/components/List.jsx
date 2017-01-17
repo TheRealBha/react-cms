@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-// import ListItem from './ListItem';
 
-const testList = [
+const list = [
     {
         id: 1,
         title: 'test',
@@ -14,7 +13,7 @@ const testList = [
     }
 ];
 
-function MyList(props) {
+function Notifications(props) {
     const list = props.value;
     const listItems = list.map((item, i) =>
         <li key={i}>{item.id} {item.title} {item.body}</li>
@@ -29,7 +28,7 @@ export default class List extends Component {
             <div>
                 <h2>Notifications</h2>
                 <div>
-                    <MyList value={testList} />
+                    <Notifications value={list} />
                 </div>
             </div>
         );
