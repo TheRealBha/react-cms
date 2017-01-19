@@ -38,7 +38,7 @@ openapi.initialize({
 
 app.get('/swagger-ui', (req, res, next)=>{
   if(!req.query.url){
-    res.redirect('/swagger-ui?url=/v1/apidoc');
+    res.redirect('/swagger-ui?url=/v1/api-docs');
     return;
   }
   next();
