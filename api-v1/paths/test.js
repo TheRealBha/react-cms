@@ -5,7 +5,7 @@ module.exports = function(worldsService) {
     GET
   };
   function GET(req, res, next) {
-    res.status(200).json(worldsService.operations.getWorlds(req.query.worldName));
+    res.status(200).json(worldsService.getWorlds(req.query.worldName));
   }
 
   GET.apiDoc = {
