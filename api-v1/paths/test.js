@@ -1,11 +1,18 @@
 'use strict';
 
-module.exports = function(worldsService) {
+module.exports = function (sqlService) {
   let operations = {
     GET
   };
+
   function GET(req, res, next) {
-    res.status(200).json(worldsService.getWorlds(req.query.worldName));
+    sqlService.list().then((results) => {
+      console.log(results);
+      
+      res.status(200).json({
+        results: results
+      });
+    });
   }
 
   GET.apiDoc = {
