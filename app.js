@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const express = require('express');
 const config = require('./webpack.config');
 const openapi = require('express-openapi');
-const v1WorldsService = require('./api-v1/service/test-service');
+const v1SqlService = require('./api-v1/service/sqlService');
 const v1ApiDoc = require('./api-v1/api-doc');
 
 const app = express();
@@ -19,15 +19,13 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
- console.log(v1ApiDoc);
-console.log(v1WorldsService);
 
 openapi.initialize({
   app,
   apiDoc: v1ApiDoc,
   exposeApiDocs: true,
   dependencies: {
-    worldsService: v1WorldsService
+    sqlService: v1SqlService
   },
   paths: './api-v1/paths',
   errorMiddleware (err, req, res, next) {
