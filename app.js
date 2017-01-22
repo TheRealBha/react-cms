@@ -1,10 +1,12 @@
+const bodyParser = require('body-parser');
+const config = require('./webpack.config');
+const express = require('express');
+const openapi = require('express-openapi');
 const path = require('path');
 const webpack = require('webpack');
-const express = require('express');
-const config = require('./webpack.config');
-const openapi = require('express-openapi');
 const v1SqlService = require('./api-v1/service/sqlService');
 const v1ApiDoc = require('./api-v1/api-doc');
+
 
 const app = express();
 const compiler = webpack(config);
@@ -15,10 +17,9 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+app.use('/swagger-ui', express.static('swagger-ui'));
 
+app.use(bodyParser.json());
 
 openapi.initialize({
   app,
@@ -41,8 +42,10 @@ app.get('/swagger-ui', (req, res, next)=>{
   }
   next();
 })
-app.use('/swagger-ui', express.static('swagger-ui'));
 
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 app.listen(3000, function(err) {
   if (err) {
