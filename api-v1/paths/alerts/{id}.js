@@ -2,7 +2,8 @@
 
 module.exports = function (sqlService) {
     let operations = {
-        PUT
+        PUT,
+        DELETE
     };
 
     function PUT(req, res, next) {
@@ -14,6 +15,18 @@ module.exports = function (sqlService) {
             id,
             title,
             body
+        ).then((results) => {
+            res.status(200).json({
+                results: results
+            });
+        })
+    }
+
+    function DELETE(req, res, next) {
+        // Reassigning for readability
+        let id = req.params.id;
+        sqlService.delete(
+            id
         ).then((results) => {
             res.status(200).json({
                 results: results
@@ -48,7 +61,36 @@ module.exports = function (sqlService) {
         ],
         responses: {
             200: {
-                description: 'Returns the alert that was added to the database',
+                description: 'Returns the alert that was updated in the database',
+                schema: {
+                    type: 'array',
+                    items: {
+                        $ref: '#/definitions/alerts'
+                    }
+                }
+            },
+            default: {
+                description: 'An error occurred. Could not insert the alert.',
+                schema: {
+                    additionalProperties: true
+                }
+            }
+        }
+    };
+
+    DELETE.apiDoc = {
+        summary: 'DELETE an alert by id.',
+        operationId: 'deleteAlert',
+        parameters: [{
+                name: 'id',
+                in: 'path',
+                type: 'number',
+                required: true
+            }
+        ],
+        responses: {
+            200: {
+                description: 'Returns confirmation that the alert was deleted.',
                 schema: {
                     type: 'array',
                     items: {
