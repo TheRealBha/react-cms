@@ -12,15 +12,18 @@ const sqlService = {
   // SELECT
   list() {
     return mysql.select().table('message').then((rows) => {
-      console.log(rows);
       return rows;
     })
   },
   // INSERT
   insert(title, body) {
-    return mysql.insert({title, body}).into('message').then((row) => {
-      
+    return mysql.insert({
+      title,
+      body
+    }).into('message').then((row) => {
       return {
+        title: title,
+        body: body,
         inserted: true,
         row: row
       };
@@ -28,16 +31,29 @@ const sqlService = {
   },
   // UPDATE
   update(id, title, body) {
-    console.log(id);
-    
-    return mysql('message').where('id', id).update({title, body}).then((row) => {
+    return mysql('message').where('id', id).update({
+      title,
+      body
+    }).then((row) => {
       return {
-        inserted: true,
+        id: id,
+        title: title,
+        body: body,
+        updated: true,
+        row: row
+      };
+    })
+  },
+  // DELETE
+  delete(id) {
+    return mysql('message').where('id', id).del().then((row) => {
+      return {
+        id: id,
+        deleted: true,
         row: row
       };
     })
   }
-
 };
 
 module.exports = sqlService;
