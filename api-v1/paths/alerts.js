@@ -19,7 +19,10 @@ module.exports = function (sqlService) {
   function POST(req, res, next) {
     let title = req.body.title;
     let body = req.body.body;
-    sqlService.insert({title, body}).then((results) => {
+    sqlService.insert(
+      title,
+      body
+    ).then((results) => {
       res.status(200).json({
         results: results
       });
@@ -85,5 +88,6 @@ module.exports = function (sqlService) {
       }
     }
   };
+
   return operations;
 }
