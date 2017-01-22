@@ -16,10 +16,21 @@ const sqlService = {
       return rows;
     })
   },
-  //INSERT
+  // INSERT
   insert(title, body) {
-    return mysql.insert(title, body).into('message').then((row) => {
+    return mysql.insert({title, body}).into('message').then((row) => {
       
+      return {
+        inserted: true,
+        row: row
+      };
+    })
+  },
+  // UPDATE
+  update(id, title, body) {
+    console.log(id);
+    
+    return mysql('message').where('id', id).update({title, body}).then((row) => {
       return {
         inserted: true,
         row: row
